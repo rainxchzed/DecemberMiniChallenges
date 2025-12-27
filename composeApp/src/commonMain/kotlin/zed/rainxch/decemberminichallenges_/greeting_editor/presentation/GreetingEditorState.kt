@@ -1,6 +1,8 @@
 package zed.rainxch.decemberminichallenges_.greeting_editor.presentation
 
+import zed.rainxch.decemberminichallenges_.greeting_editor.presentation.model.GreetingBackground
+
 data class GreetingEditorState(
-    val paramOne: String = "default",
-    val paramTwo: List<String> = emptyList(),
+    val selectedBackground: GreetingBackground = GreetingBackground.GoldenEve,
+    val isSelectBackgroundExpanded: Boolean = false
 )

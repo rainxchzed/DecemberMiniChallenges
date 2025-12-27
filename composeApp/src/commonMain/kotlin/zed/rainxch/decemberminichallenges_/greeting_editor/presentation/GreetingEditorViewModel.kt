@@ -1,33 +1,43 @@
 package zed.rainxch.decemberminichallenges_.greeting_editor.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class GreetingEditorViewModel : ViewModel() {
 
     private var hasLoadedInitialData = false
 
     private val _state = MutableStateFlow(GreetingEditorState())
-    val state = _state
-        .onStart {
-            if (!hasLoadedInitialData) {
-                /** Load initial data here **/
-                hasLoadedInitialData = true
-            }
-        }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = GreetingEditorState()
-        )
+    val state = _state.asStateFlow()
 
     fun onAction(action: GreetingEditorAction) {
         when (action) {
-            else -> TODO("Handle actions")
+            is GreetingEditorAction.OnSelectGreetingBackground -> {
+                _state.update {
+                    it.copy(
+                        selectedBackground = action.background,
+                        isSelectBackgroundExpanded = false
+                    )
+                }
+            }
+
+            GreetingEditorAction.OnDismissBackgroundsDropdown -> {
+                _state.update {
+                    it.copy(
+                        isSelectBackgroundExpanded = false
+                    )
+                }
+            }
+
+            GreetingEditorAction.OnExpandBackgroundsDropdown -> {
+                _state.update {
+                    it.copy(
+                        isSelectBackgroundExpanded = true
+                    )
+                }
+            }
         }
     }
 

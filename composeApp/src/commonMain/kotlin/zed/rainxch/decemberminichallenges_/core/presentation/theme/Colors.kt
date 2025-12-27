@@ -2,6 +2,7 @@ package zed.rainxch.decemberminichallenges_.core.presentation.theme
 
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 
 object SantaPianoColors {
     val background = Color(0xff238CFF)
@@ -14,7 +15,7 @@ object SantaPianoColors {
     )
 }
 
-object GreetingEditor {
+object GreetingEditorColors {
     val goldenEveGradient = Brush.radialGradient(
         listOf(
             Color(0xffD77C20),
@@ -29,8 +30,8 @@ object GreetingEditor {
             Color(0xff2746AE),
         )
     )
-    val evergreenWish = Color(0xff244008)
-    val frostyLight = Color(0xffFCFCFF)
+    val evergreenWish = SolidColor(Color(0xff244008))
+    val frostyLight = SolidColor(Color(0xffFCFCFF))
 
     val text = Color(0xff0D1040)
     val strockDark = Color(0xffBFC1E2)
