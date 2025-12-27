@@ -1,6 +1,7 @@
 package zed.rainxch.decemberminichallenges_.santa_piano.presentation
 
+import zed.rainxch.decemberminichallenges_.santa_piano.domain.model.PianoKey
+
 data class SantaPianoState(
-    val paramOne: String = "default",
-    val paramTwo: List<String> = emptyList(),
+    val pianoKeys: List<PianoKey> = PianoKey.entries.toList()
 )
