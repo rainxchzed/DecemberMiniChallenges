@@ -130,7 +130,6 @@ private fun BoxScope.EditorToolbar(
         modifier = modifier
             .padding(22.dp)
             .statusBarsPadding()
-            .imePadding()
             .padding(bottom = 16.dp)
             .align(Alignment.BottomCenter)
             .clip(RoundedCornerShape(16.dp))

@@ -1,7 +1,7 @@
 package zed.rainxch.decemberminichallenges_.santa_piano.domain.model
 
 enum class PianoKey(
-    private val musicPath: String,
+    val musicPath: String,
 ) {
     Chime(
         musicPath = "chime_sound.wav"
