@@ -7,9 +7,9 @@ import kotlinx.coroutines.withContext
 
 class AndroidAudioPlayer(private val context: Context) : AudioPlayer {
     private val soundPool: SoundPool = SoundPool(
-        /* maxStreams = */ 10, // maxStreams - Allow up to 10 simultaneous sounds
-        /* streamType = */ android.media.AudioManager.STREAM_MUSIC, // streamType
-        /* srcQuality = */ 0 // srcQuality
+        /* maxStreams = */ 10,
+        /* streamType = */ android.media.AudioManager.STREAM_MUSIC,
+        /* srcQuality = */ 0
     )
 
     private val soundMap = mutableMapOf<String, Int>()

@@ -1,7 +1,11 @@
 package zed.rainxch.decemberminichallenges_.santa_piano.presentation
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -22,6 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +50,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import zed.rainxch.decemberminichallenges_.core.presentation.theme.SantaPianoColors
 import zed.rainxch.decemberminichallenges_.core.presentation.theme.hostGroteskFontFamily
+import zed.rainxch.decemberminichallenges_.santa_piano.domain.model.PianoKey
 
 @Composable
 fun SantaPianoRoot(
@@ -112,33 +118,10 @@ private fun BoxScope.Piano(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 state.pianoKeys.forEach { pianoKey ->
-                    Box(
-                        modifier = Modifier
-                            .width(74.dp)
-                            .height(214.dp)
-                            .clip(RoundedCornerShape(size = 16.dp))
-                            .dropShadow(
-                                RoundedCornerShape(
-                                    bottomStart = 16.dp,
-                                    bottomEnd = 16.dp,
-                                ),
-                                shadow = Shadow(
-                                    radius = 40.dp,
-                                    color = Color.Black.copy(alpha = .3f),
-                                    offset = DpOffset(x = 0.dp, y = 10.dp)
-                                )
-                            )
-                            .background(
-                                Brush.linearGradient(
-                                    listOf(
-                                        Color.White.copy(alpha = .85f),
-                                        Color.White,
-                                    )
-                                )
-                            )
-                            .clickable(onClick = {
-                                onAction(SantaPianoAction.OnPianoKeyClick(pianoKey))
-                            })
+                    PianoKey(
+                        pianoKey = pianoKey,
+                        isPressed = state.pressedKeys.contains(pianoKey),
+                        onClick = { onAction(SantaPianoAction.OnPianoKeyClick(pianoKey)) }
                     )
                 }
             }
@@ -179,6 +162,67 @@ private fun BoxScope.Piano(
             }
         }
     }
+}
+
+@Composable
+private fun PianoKey(
+    pianoKey: PianoKey,
+    isPressed: Boolean,
+    onClick: () -> Unit
+) {
+    val topColor by animateColorAsState(
+        targetValue = if (isPressed) {
+            Color(0xD9D0FFFD)
+        } else {
+            Color.White.copy(alpha = .85f)
+        },
+        animationSpec = tween(
+            durationMillis = 300,
+            easing = FastOutSlowInEasing
+        ),
+        label = "topColorAnimation"
+    )
+
+    val bottomColor by animateColorAsState(
+        targetValue = if (isPressed) {
+            Color(0xFF88B5F4)
+        } else {
+            Color.White
+        },
+        animationSpec = tween(
+            durationMillis = 300,
+            easing = FastOutSlowInEasing
+        ),
+        label = "bottomColorAnimation"
+    )
+
+    Box(
+        modifier = Modifier
+            .width(74.dp)
+            .height(214.dp)
+            .clip(RoundedCornerShape(size = 16.dp))
+            .dropShadow(
+                RoundedCornerShape(
+                    bottomStart = 16.dp,
+                    bottomEnd = 16.dp,
+                ),
+                shadow = Shadow(
+                    radius = 40.dp,
+                    color = Color.Black.copy(alpha = .3f),
+                    offset = DpOffset(x = 0.dp, y = 10.dp)
+                )
+            )
+            .background(
+                Brush.linearGradient(
+                    listOf(topColor, bottomColor)
+                )
+            )
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick
+            )
+    )
 }
 
 @Composable
