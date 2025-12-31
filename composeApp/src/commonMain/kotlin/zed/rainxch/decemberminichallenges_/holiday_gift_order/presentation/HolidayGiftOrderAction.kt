@@ -7,7 +7,7 @@ sealed interface HolidayGiftOrderAction {
     data class SelectGiftType(val giftType: GiftType) : HolidayGiftOrderAction
     data object ToggleGiftTypeDropdown : HolidayGiftOrderAction
     data class SelectDeliveryMethod(val deliveryMethod: DeliveryMethod) : HolidayGiftOrderAction
-    data class ToggleGiftWrap(val include: Boolean) : HolidayGiftOrderAction
-    data class ToggleGreetingCard(val add: Boolean) : HolidayGiftOrderAction
+    data object ToggleGiftWrap : HolidayGiftOrderAction
+    data object ToggleGreetingCard : HolidayGiftOrderAction
     data object PlaceOrder : HolidayGiftOrderAction
 }

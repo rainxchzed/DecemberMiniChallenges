@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -65,6 +66,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import zed.rainxch.decemberminichallenges_.core.presentation.theme.GreetingEditorColors
 import zed.rainxch.decemberminichallenges_.core.presentation.theme.montserratFontFamily
 import zed.rainxch.decemberminichallenges_.core.utils.ObserveAsEvents
+import zed.rainxch.decemberminichallenges_.holiday_gift_order.presentation.components.RoundedRadioButton
 import zed.rainxch.decemberminichallenges_.holiday_gift_order.presentation.models.DeliveryMethod
 import zed.rainxch.decemberminichallenges_.holiday_gift_order.presentation.models.GiftType
 
@@ -115,7 +117,7 @@ fun HolidayGiftOrderScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.Check,
+                            imageVector = Icons.Filled.CheckCircle,
                             contentDescription = null,
                             tint = Color(0xff159302),
                             modifier = Modifier.size(20.dp)
@@ -458,54 +460,23 @@ fun HolidayGiftOrderScreen(
 
                 Spacer(Modifier.height(16.dp))
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Checkbox(
-                        checked = state.includeGiftWrap,
-                        onCheckedChange = {
-                            onAction(HolidayGiftOrderAction.ToggleGiftWrap(it))
-                        },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = Color(0xff346CEE),
-                            uncheckedColor = Color(0xffD4E1FF),
-                            checkmarkColor = Color.White
-                        )
-                    )
-
-                    Text(
-                        text = "Include Gift Wrap",
-                        fontFamily = montserratFontFamily(),
-                        fontWeight = FontWeight.Medium,
-                        color = Color(0xff05133E),
-                        fontSize = 18.sp
-                    )
-                }
+                RoundedRadioButton(
+                    selected = state.includeGiftWrap,
+                    onClick = {
+                        onAction(HolidayGiftOrderAction.ToggleGiftWrap)
+                    },
+                    text = "Include Gift Wrap"
+                )
 
                 Spacer(Modifier.height(12.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Checkbox(
-                        checked = state.addGreetingCard,
-                        onCheckedChange = { onAction(HolidayGiftOrderAction.ToggleGreetingCard(it)) },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = Color(0xff346CEE),
-                            uncheckedColor = Color(0xffD4E1FF),
-                            checkmarkColor = Color.White
-                        )
-                    )
 
-                    Text(
-                        text = "Add Greeting Card",
-                        fontFamily = montserratFontFamily(),
-                        fontWeight = FontWeight.Medium,
-                        color = Color(0xff05133E),
-                        fontSize = 18.sp
-                    )
-                }
+                RoundedRadioButton(
+                    selected = state.addGreetingCard,
+                    onClick = {
+                        onAction(HolidayGiftOrderAction.ToggleGreetingCard)
+                    },
+                    text = "Add Greeting Card"
+                )
             }
         }
     }

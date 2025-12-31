@@ -54,11 +54,11 @@ class HolidayGiftOrderViewModel : ViewModel() {
             }
 
             is HolidayGiftOrderAction.ToggleGiftWrap -> {
-                _state.update { it.copy(includeGiftWrap = action.include) }
+                _state.update { it.copy(includeGiftWrap = !it.includeGiftWrap) }
             }
 
             is HolidayGiftOrderAction.ToggleGreetingCard -> {
-                _state.update { it.copy(addGreetingCard = action.add) }
+                _state.update { it.copy(addGreetingCard = !it.addGreetingCard) }
             }
 
             is HolidayGiftOrderAction.PlaceOrder -> {
