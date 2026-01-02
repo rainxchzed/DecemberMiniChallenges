@@ -1,34 +1,36 @@
 package zed.rainxch.decemberminichallenges_.snow_globe_shake.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import zed.rainxch.decemberminichallenges_.snow_globe_shake.util.ShakeDetector
 
-class SnowGlobeShakeViewModel : ViewModel() {
-
-    private var hasLoadedInitialData = false
+class SnowGlobeShakeViewModel(
+    private val shakeDetector: ShakeDetector
+) : ViewModel() {
 
     private val _state = MutableStateFlow(SnowGlobeShakeState())
-    val state = _state
-        .onStart {
-            if (!hasLoadedInitialData) {
-                /** Load initial data here **/
-                hasLoadedInitialData = true
-            }
-        }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = SnowGlobeShakeState()
-        )
+    val state: StateFlow<SnowGlobeShakeState> = _state
 
-    fun onAction(action: SnowGlobeShakeAction) {
-        when (action) {
-            else -> TODO("Handle actions")
+    init {
+        shakeDetector.invoke {
+            if (!_state.value.isSnowing) {
+                startSnowing()
+            }
         }
     }
 
+    private fun startSnowing() {
+        _state.update {
+            it.copy(
+                isSnowing = true,
+                animationKey = it.animationKey + 1
+            )
+        }
+    }
+
+    fun onSnowfallComplete() {
+        _state.update { it.copy(isSnowing = false) }
+    }
 }
